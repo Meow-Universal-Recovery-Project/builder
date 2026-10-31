@@ -1,0 +1,19 @@
+name: Gitea Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    env:
+      GITEA_TOKEN: ${{ secrets.GITEA_TOKEN }}
+      ANUBIS_CI_TOKEN: ${{ secrets.ANUBIS_CI_TOKEN }}
+    steps:
+      - name: Curl check
+        run: |
+          curl -v -H "X-Ci-Token: $ANUBIS_CI_TOKEN" -u wojtekojtek:$GITEA_TOKEN https://tea.hevmet.pl/wojtekojtek/android_bootable_recovery
+
+      - name: Git clone check
+        run: |
+          git -c http.extraHeader="X-Ci-Token: ${ANUBIS_CI_TOKEN}" clone "https://wojtekojtek:${GITEA_TOKEN}@tea.hevmet.pl/wojtekojtek/android_bootable_recovery" ./gitea-clone-test
