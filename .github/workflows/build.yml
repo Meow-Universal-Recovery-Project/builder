@@ -100,17 +100,12 @@ jobs:
       if: inputs.USE_GITEA == 'true'
       env:
         GITEA_TOKEN: ${{ secrets.GITEA_TOKEN }}
-        GITEA_USER_AGENT: murp-builder
       run: |
         rm -rf "${GITHUB_WORKSPACE}/MURP/bootable/recovery"
 
-        git config --global --unset-all http.extraheader || true
-        git config --local --unset-all http.https://tea.meeow.tech/.extraheader || true
-
-        git -c http.extraHeader="User-Agent: ${GITEA_USER_AGENT}" clone \
+        git -c http.userAgent="murp-builder" clone \
           "https://wojtekojtek:${GITEA_TOKEN}@tea.meeow.tech/wojtekojtek/android_bootable_recovery" \
           "${GITHUB_WORKSPACE}/MURP/bootable/recovery"
-          
     - name: Clone Device Tree
       run: |
         cd ${GITHUB_WORKSPACE}/MURP
