@@ -154,7 +154,8 @@ jobs:
         for f in ${GITHUB_WORKSPACE}/MURP/out/target/product/${{ inputs.DEVICE_NAME }}/MURP*.img \
                   ${GITHUB_WORKSPACE}/MURP/out/target/product/${{ inputs.DEVICE_NAME }}/MURP*.zip; do
           [ -f "$f" ] || continue
-          curl -u "${{ secrets.NEXTCLOUD_USERNAME }}:${{ secrets.NEXTCLOUD_PASSWORD }}" \
+          curl -A "murp-builder" \
+            -u "${{ secrets.NEXTCLOUD_USERNAME }}:${{ secrets.NEXTCLOUD_PASSWORD }}" \
             -T "$f" \
             "${{ secrets.NEXTCLOUD_URL }}/remote.php/dav/files/${{ secrets.NEXTCLOUD_USERNAME }}/MURP/$(basename $f)"
         done
