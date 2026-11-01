@@ -156,6 +156,7 @@ jobs:
         done
 
     - name: Upload to Release
+      if: inputs.UPLOAD_TO_NEXTCLOUD == 'false'
       uses: softprops/action-gh-release@v2
       with:
         files: |
