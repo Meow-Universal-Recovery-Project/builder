@@ -25,6 +25,14 @@ jobs:
     name: Test Clone & Upload
     runs-on: ubuntu-22.04
     steps:
+    - name: Debug Gitea UA
+      if: inputs.USE_GITEA == 'true'
+      run: |
+        echo "--- no UA override (default curl UA) ---"
+        curl -s -o /dev/null -w "%{http_code}\n" "https://tea.meeow.tech/"
+        echo "--- with murp-builder UA ---"
+        curl -s -o /dev/null -w "%{http_code}\n" -A "murp-builder" "https://tea.meeow.tech/"
+
     - name: Use Gitea
       if: inputs.USE_GITEA == 'true'
       env:
